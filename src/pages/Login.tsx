@@ -20,11 +20,7 @@ export default function Login() {
   // Rediriger si déjà connecté
   useEffect(() => {
     if (isAuthenticated && userRole) {
-      if (userRole === 'admin') {
-        navigate('/ressources', { replace: true });
-      } else {
-        navigate('/', { replace: true });
-      }
+      navigate('/', { replace: true });
     }
   }, [isAuthenticated, userRole, navigate]);
 
@@ -45,11 +41,7 @@ export default function Login() {
           .eq('user_id', user.id)
           .single();
 
-        if (roleData?.role === 'admin') {
-          navigate('/ressources');
-        } else {
-          navigate('/');
-        }
+        navigate('/');
       }
     } catch (error: any) {
       console.error('Erreur de connexion:', error);

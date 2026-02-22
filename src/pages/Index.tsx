@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import logoLB from "@/assets/logo-lb.png";
+import logoLB from "@/assets/logo-lb.svg";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";

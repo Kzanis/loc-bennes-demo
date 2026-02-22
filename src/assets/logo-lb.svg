@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E02020"/>
+      <stop offset="100%" style="stop-color:#B01818"/>
+    </linearGradient>
+  </defs>
+  <!-- Cercle principal -->
+  <circle cx="100" cy="100" r="95" fill="url(#bg)" stroke="#fff" stroke-width="4"/>
+  <!-- Anneau intérieur -->
+  <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Texte LB -->
+  <text x="100" y="115" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="80" fill="#fff" letter-spacing="-2">LB</text>
+  <!-- Texte circulaire haut -->
+  <path id="topArc" d="M 30,100 a 70,70 0 0,1 140,0" fill="none"/>
+  <text font-family="Arial, Helvetica, sans-serif" font-size="13" fill="rgba(255,255,255,0.9)" font-weight="700" letter-spacing="3">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">LOCATION DE</textPath>
+  </text>
+  <!-- Texte circulaire bas -->
+  <path id="bottomArc" d="M 170,100 a 70,70 0 0,1 -140,0" fill="none"/>
+  <text font-family="Arial, Helvetica, sans-serif" font-size="13" fill="rgba(255,255,255,0.9)" font-weight="700" letter-spacing="3">
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">BENNES</textPath>
+  </text>
+</svg>
