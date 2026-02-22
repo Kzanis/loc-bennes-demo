@@ -261,45 +261,29 @@ const Index = () => {
 
     setIsSubmitting(true);
     try {
-      // Créer un FormData au lieu de JSON
-      const formDataToSend = new FormData();
-      
-      // Ajouter tous les champs selon le type de commande
+      // Construire le payload JSON selon le type de commande
+      let payload: Record<string, string> = {};
+
       if (typeCommande === "BIGBAG") {
-        formDataToSend.append("type_commande", "BIGBAG");
+        payload = { type_commande: "BIGBAG" };
         Object.entries(formDataBigBag).forEach(([key, value]) => {
-          if (value) {
-            formDataToSend.append(key, value);
-          }
+          if (value) payload[key] = value;
         });
       } else {
-        formDataToSend.append("type_commande", "LOCATION_BENNE");
+        payload = { type_commande: "LOCATION_BENNE" };
         Object.entries(formData).forEach(([key, value]) => {
-          if (value) {
-            formDataToSend.append(key, value);
-          }
+          if (value) payload[key] = value;
         });
       }
-      
-      // Ajouter la photo si présente (fichier réel)
-      if (wastePhoto) {
-        formDataToSend.append("photo", wastePhoto);
-      }
-      
-      console.log("Envoi du formulaire avec multipart/form-data");
-      
-      // Appel à l'Edge Function proxy avec multipart/form-data
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/webhook-proxy`,
-        {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-            // PAS de Content-Type - le navigateur le définit automatiquement avec boundary
-          },
-          body: formDataToSend,
-        }
-      );
+
+      console.log("Envoi du formulaire JSON vers n8n");
+
+      // Appel au proxy Vercel → n8n webhook LOC_BENNES
+      const response = await fetch("/api/webhook-proxy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       if (response.ok) {
         const result = await response.json();

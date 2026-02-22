@@ -33,7 +33,7 @@ serve(async (req) => {
     }
     
     // Appel au webhook N8N
-    const webhookUrl = "https://n8n.srv1196329.hstgr.cloud/webhook/FH_Negoce";
+    const webhookUrl = "https://n8n.srv1196329.hstgr.cloud/webhook/LOC_BENNES";
     console.log("Webhook proxy: Envoi vers", webhookUrl);
     
     const response = await fetch(webhookUrl, {
