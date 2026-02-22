@@ -1,0 +1,10 @@
+project_id = "xebmkbzggxduuaqmkggy"
+
+[functions.delete-all-users]
+verify_jwt = false
+
+[functions.delete-user]
+verify_jwt = false
+
+[functions.create-admin-user]
+verify_jwt = false
