@@ -270,20 +270,39 @@ const Index = () => {
           if (value) payload[key] = value;
         });
       } else {
-        payload = { type_commande: "LOCATION_BENNE" };
+        payload = { type_commande: "BENNE" };
         Object.entries(formData).forEach(([key, value]) => {
           if (value) payload[key] = value;
         });
       }
 
-      console.log("Envoi du formulaire JSON vers n8n");
+      console.log("Envoi du formulaire vers n8n", wastePhoto ? "(avec photo)" : "(sans photo)");
 
-      // Appel au proxy Vercel → n8n webhook LOC_BENNES
-      const response = await fetch("/api/webhook-proxy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      // URL webhook: relative en dev (proxied par Vite), absolue en prod
+      const webhookUrl = import.meta.env.DEV
+        ? "/webhook/LOC_BENNES"
+        : "https://creatorweb.fr/webhook/LOC_BENNES";
+
+      // Si photo presente, envoyer en multipart/form-data pour inclure le fichier
+      // Sinon, form-urlencoded
+      let response: Response;
+      if (wastePhoto && typeCommande !== "BIGBAG") {
+        const formPayload = new FormData();
+        Object.entries(payload).forEach(([key, value]) => {
+          formPayload.append(key, value);
+        });
+        formPayload.append("data0", wastePhoto, wastePhoto.name);
+        response = await fetch(webhookUrl, {
+          method: "POST",
+          body: formPayload,
+        });
+      } else {
+        response = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(payload).toString(),
+        });
+      }
 
       if (response.ok) {
         const result = await response.json();

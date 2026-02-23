@@ -10,6 +10,13 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     allowedHosts: true,
+    proxy: {
+      "/webhook": {
+        target: "https://creatorweb.fr",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   plugins: [
     react(),
